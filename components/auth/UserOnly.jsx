@@ -2,7 +2,7 @@ import { Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useUser } from "../../hooks/useUser";
 import { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import ThemedLoader from "../ThemedLoader";
 
 const UserOnly = ({ children }) => {
   const { user, authChecked } = useUser();
@@ -15,11 +15,7 @@ const UserOnly = ({ children }) => {
   }, [user, authChecked]);
 
   if (!authChecked || !user) {
-    return (
-      <SafeAreaView>
-        <Text>Loading...</Text>
-      </SafeAreaView>
-    );
+    return <ThemedLoader />;
   }
   return children;
 };
