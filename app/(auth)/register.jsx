@@ -13,18 +13,21 @@ import Spacer from "../../components/Spacer";
 import ThemedTextInput from "../../components/ThemedTextInput";
 import { useState } from "react";
 import { useUser } from "../../hooks/useUser";
+import { Colors } from "../../constants/Colors";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, register } = useUser();
+  const [Error, setError] = useState(null);
 
   const handleSubmit = async () => {
+    setError(null);
     try {
       await register(email, password);
       console.log("current user is:", user);
     } catch (error) {
-      console.log(error);
+      setError(error);
     }
   };
   return (
@@ -55,6 +58,10 @@ const Register = () => {
           <Text style={{ color: "#f2f2f2" }}>Sign up</Text>
         </ThemedButton>
 
+        <Spacer />
+
+        {Error && <Text style={styles.error}>{Error.message}</Text>}
+
         <Spacer height={100} />
         <Link href="/login">
           <ThemedText style={{ textAlign: "center" }}>Login instead</ThemedText>
@@ -76,5 +83,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     marginBottom: 30,
+  },
+  error: {
+    color: Colors.warning,
+    padding: 10,
+    backgroundColor: "#f5c1c8",
+    borderColor: Colors.warning,
+    borderWidth: 1,
+    borderRadius: 6,
+    marginHorizontal: 10,
   },
 });
